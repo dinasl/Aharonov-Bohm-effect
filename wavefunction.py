@@ -10,7 +10,7 @@ M_E = 9.11e-31          # electron mass [kg]
 
 class WaveFunction:
     
-    def __init__(self, x, y, psi_0, V, dt, hbar = 1, m = 1, t_0 = 0.0) :
+    def __init__(self, x, y, psi_0, V, dt, hbar = 1.0, m = 1.0, t_0 = 0.0) :
         
         '''
         x, y        x- and y-interval on which problem is defined   

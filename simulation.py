@@ -6,7 +6,7 @@ gauss = lambda x, y, x0, y0, dx, dy : np.exp(-((x - x0)/2*dx)**2) * np.exp(-((y 
 # Gaussian electron wavepacket (phi)
 def gaussian_wavepacket(x, y, x0, y0, ox, oy, k_x0, k_y0) :
     
-    return 1/(2*ox**2*np.pi)**(1/4) * 1/(2*oy**2*np.pi)**(1/4) * gauss(x, y, x0, y0, ox, oy) * np.exp(1.0j * (k_x0 + k_y0))
+    return 1/(2*ox**2*np.pi)**(1/4) * 1/(2*oy**2*np.pi)**(1/4) * gauss(x, y, x0, y0, ox, oy) * np.exp(1.0j * (k_x0*x + k_y0*y))
 
 # (Heavside) step potential
 def step_potential(V0, x, y, x0, x1, y0, y1) :
