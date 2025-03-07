@@ -20,7 +20,8 @@ R = 0.2         # Radius of solenoid [m]
 
 # Simulation/animation timer
 # start_clock = time.time()
-N_frames = 300  # Number of frames the animation will consist of
+# N_frames = 300  # Number of frames the animation will consist of
+N_frames = 300
 N_levels = 200  # Number of energy levels in contour plot 
 dt = 0.005  # Time step
 # t_arr = np.arange(0, N_frames*dt, dt)  # Time array
@@ -52,12 +53,11 @@ psi_0 = gaussian_wavepacket(xx, yy, x0, y0, ox, oy, k_x0, k_y0).transpose().resh
 # Initialize wavefunction object
 electron = WaveFunction(x, y, psi_0, V_slit, dt)
 electron.psi = electron.psi/electron.total_prob()   # Normalize
-
-# electron.CN_step()
+# electron.psi = electron.psi/np.sqrt(electron.total_prob())   # Normalize
 
 # SET UP PLOTS 
 
-fig, ax = plt.subplots(1, 2, figsize = (18,6))
+fig, ax = plt.subplots(1, 2, figsize = (13,6))
 
 # 2D probability density plot (ax[0])
 
@@ -143,4 +143,4 @@ def update(frame) :
 # RUN ANIMATION
 
 animate = animation.FuncAnimation(fig, update, frames = N_frames, interval = 50, blit = False)
-animate.save('double_slit.gif', writer = 'Pillow')
+animate.save('double_slit(2).gif', writer = 'Pillow')
