@@ -3,28 +3,13 @@ from simulation import *
 import time
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+# from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-# Define QM constants
-EPSILON0 = 8.65e-12     # Vacuum permittivity [F/m]
-HBAR = 1.05e-34         # Planck's reduced constant h/2pi [Js]
-ECHARGE = 1.6e-19       # Elementary charge [C]
-M_E = 9.11e-31          # Electron mass [kg]
-
-V_0 = 400   # Magntitude of potential barriers
-
-# Aharonov-Bohm parameters
-
-I = 1e-8        # Current in amps [A]
-R = 0.2         # Radius of solenoid [m]
-
-# Simulation/animation timer
+# Animation parameters
 # start_clock = time.time()
-# N_frames = 300  # Number of frames the animation will consist of
-N_frames = 300
-N_levels = 200  # Number of energy levels in contour plot 
+N_frames = 300  # Number of frames the animation will consist of
+N_levels = 200  # Number of energy levels in contour plots
 dt = 0.005  # Time step
-# t_arr = np.arange(0, N_frames*dt, dt)  # Time array
 
 # Define spatial domain
 x_min, x_max, dx = -12, 12, 0.1
@@ -33,10 +18,12 @@ y_min, y_max, dy = -12, 12, dx
 x, y = np.arange(x_min, x_max+dx, dx), np.arange(y_min, y_max+dy, dy)
 
 # Create double slit using three potential barriers
+V_0 = 400   # Magntitude of potential barriers
 width = 0.15
 d = 1.5
 s = 0.5
 
+# Barrier positions
 bottom = x0_1, x1_1, y0_1, y1_1 = -width, width, y.min(), -d    # Bottom barrier
 top = x0_2, x1_2, y0_2, y1_2 = -width, width, d, y.max()     # Top barrier
 separation = x0_3, x1_3, y0_3, y1_3 = -width, width, -d+s, d-s  # Slit separation barrier
@@ -108,7 +95,7 @@ def update(frame) :
     
     electron.CN_step()
     
-    z = electron.prob().reshape(electron.Ny, electron.Nx).transpose()
+    z = electron.prob().reshape(electron.Nx, electron.Ny).transpose()
     
     ax[0].clear()
     ax[1].clear()

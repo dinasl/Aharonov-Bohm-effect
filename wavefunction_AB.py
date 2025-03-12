@@ -2,9 +2,17 @@ import numpy as np
 from scipy import sparse
 from scipy.sparse.linalg import bicgstab
 
+# Define QM constants
+EPSILON_0 = 8.65e-12    # Vacuum permittivity [F/m]
+HBAR = 1.05e-34         # Planck's reduced constant h/2pi [Js]
+E = 1.6e-19             # Elementary charge [C]
+M_E = 9.11e-31          # Electron mass [kg]
+A_0 = 5.29e-11          # Bohr radius [m]
+MU_0 = 4*np.pi*1e-7     # Vacuum permeability [H/m]
+
 class WaveFunctionAB:
     
-    def __init__(self, x, y, psi_0, V, dt, A_x, A_y, hbar = 1, m = 1, t_0 = 0.0, q = 1.602e-19) :
+    def __init__(self, x, y, psi_0, V, dt, A_x, A_y, hbar = 1.0, m = 1.0, t_0 = 0.0, q = E) :
         
         '''
         x, y        x- and y-interval on which problem is defined   
@@ -22,7 +30,7 @@ class WaveFunctionAB:
         Nx, Ny      x- and y- grid size
         t           time stamp
         alpha       dicretization constant in CN scheme
-        A, M        LHS, RHS spatrse matrices of Ax_{n+1} = Mx_{n} system
+        A, M        LHS, RHS sparse matrices (CSC) for CN_scheme: Ax_{n+1} = Mx_{n}
         '''
         
         self.psi = np.array(psi_0, dtype = np.complex128)
@@ -41,74 +49,45 @@ class WaveFunctionAB:
         # Define QM consants
         self.hbar = hbar
         self.m = m
+        self.q = q
                 
         # PML parameters
         
-        # Define LHS and RHS matrices discretizising the minimal coupling eq. 
+        # Construct LHS (A) and RHS (M) matrices discretizising the minimal coupling eq. 
         
-        N = (self.Nx - 1) * (self.Ny - 1)           # Number of internal points in domain
-        size = 5*N + 2*self.Nx + 2*(self.Ny - 2)    # Number of nonzero entries in matrix system
-                                                    # (points and their associated nearest neighbours)
-                                                    
-        I, J = np.zeros(size), np.zeros(size) # Coordinate lists (COO): row, colum indices
-        K_A, K_M = np.zeros(size, dtype = np.complex128), np.zeros(size, dtype = np.complex128) # Values in A and M matrices
+        main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Central points (i,j) A matrix
+        main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Central points (i,j) M matrix
         
-        k = 0   # K-index (flattened)
+        off_diag_below = off_diag_left = self.alpha - 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx - self.A_y * self.dt/self.dy).ravel()   # (i-1,j) and (i,j-1) points
+        off_diag_above = off_diag_right = self.alpha + 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx + self.A_y * self.dt/self.dy).ravel()  # (i+1,j) and (i,j+1) points
         
-        # Iterate over all points domain
-        for i in range(self.Ny) :
-            for j in range(self.Ny) :
-                
-                index = i + j*self.Ny
-                I[k] = index
-                
-                if i==0 or i==self.Nx-1 or j==0 or j==self.Ny-1 :   # Boundary points
-                    
-                    J[k] = index
-                    K_A[k] = 1
-                
-                else:                                               # Internal points
-                    
-                    # Central point (i,j)
-                    K_A[k] = 1.0j - 4*self.alpha - self.V[index]*dt/2
-                    K_M[k] = 1.0j + 4*self.alpha + self.V[index]*dt/2
-                    J[k] = index
-                    
-                    # Nearest neighbours
-                    k += 1                      # (i-1,j)
-                    J[k] = (i-1) + j*self.Ny
-                    K_A[k] = self.alpha + 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    K_M[k] = -self.alpha - 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    
-                    k += 1                      # (i+1,j)
-                    J[k] = (i+1) + j*self.Ny
-                    K_A[k] = self.alpha - 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    K_M[k] = -self.alpha + 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    
-                    k += 1                      # (i,j-1)
-                    J[k] = i + (j-1)*self.Ny
-                    K_A[k] = self.alpha + 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    K_M[k] = -self.alpha - 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    
-                    k += 1                      # (i,j+1)
-                    J[k] = i + (j+1)*self.Ny
-                    K_A[k] = self.alpha - 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    K_M[k] = -self.alpha + 0.5j * (q/hbar) * (self.A_x[index]/self.dx - self.A_y[index]/self.dy)*self.dt
-                    
-                k += 1
+        diags_A = np.array([main_diag_A, off_diag_below, off_diag_above, off_diag_left, off_diag_right])   # A diagonals
+        diags_M = np.array([main_diag_M, -off_diag_below, -off_diag_above, -off_diag_left, -off_diag_right])   # M diagonals
+        
+        offsets = np.array([0, -1, 1, -self.Ny, self.Ny])   # Five-point stencil in CN-scheme (column-major ordering)
+        
+        self.A = sparse.diags(diags_A, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # A
+        self.M = sparse.diags(diags_M, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # M
 
-        self.A = sparse.coo_matrix((K_A,(I,J)), shape = (self.Nx*self.Ny, self.Nx*self.Ny)).tocsc()     # LHS
-        self.M = sparse.coo_matrix((K_M,(I,J)), shape = (self.Nx*self.Ny, self.Nx*self.Ny)).tocsc()    # RHS
+        # print(self.A.shape, np.shape(self.M.dot(self.psi)))
+    
 
     def prob(self) :
         
         return (abs(self.psi))**2
     
+    # Returns normalisation constant
+    def total_prob(self) :      
+        
+        return np.trapz(np.trapz((self.prob()).reshape(self.Ny,self.Nx), self.x).real, self.y).real
+    
     # def PML(self) :
+    
+    #     ...
     
     def CN_step(self) :
         
         # PML ?
         
-        self.psi = bicgstab(self.A, self.M.dot(self.psi), x0 = self.psi, tol = 1e-6)[0]
+        self.psi = bicgstab(self.A, self.M.dot(self.psi.ravel()), x0 = self.psi.ravel(), atol = 1e-6)[0]
         self.t += self.dt

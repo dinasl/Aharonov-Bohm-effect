@@ -26,7 +26,7 @@ class WaveFunction:
         Nx, Ny      x- and y- grid size
         t           time stamp
         alpha       dicretization constant in CN scheme
-        A, M        LHS, RHS sparse matrices (CSC) for CN_scheme: Ax_{n+1} = Mx_{n} system
+        A, M        LHS, RHS sparse matrices (CSC) for CN_scheme: Ax_{n+1} = Mx_{n}
         '''
         
         self.psi = np.array(psi_0, dtype = np.complex128)
@@ -35,7 +35,7 @@ class WaveFunction:
         # Spatial domain
         self.x, self.y = np.array(x), np.array(y)
         self.dx, self.dy = x[1] - x[0], y[1] - y[0]     # Spatial domain (grid) resolution
-        self.Nx, self.Ny = len(x), len(y)       # Number of grid points
+        self.Nx, self.Ny = len(x), len(y)               # Number of grid points
         self.t = t_0
         self.dt = dt
         self.alpha = self.dt/(4*self.dx**2)
@@ -46,10 +46,10 @@ class WaveFunction:
 
         # Construct LHS (A) and RHS (M) CSC matrices
         
-        main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Main diagonal of A matrix
-        main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Off-diagonal of M matrix
+        main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Central points (i,j) A matrix
+        main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Central points (i,j) M matrix
         
-        off_diag = self.alpha * np.ones(self.Nx*self.Ny, dtype = np.complex128)    # Off-diagonal of matrices
+        off_diag = self.alpha * np.ones(self.Nx*self.Ny, dtype = np.complex128)    # Four neighbouring points
         
         diags_A = np.array([main_diag_A, off_diag, off_diag, off_diag, off_diag])   # A diagonals
         diags_M = np.array([main_diag_M, -off_diag, -off_diag, -off_diag, -off_diag])   # M diagonals

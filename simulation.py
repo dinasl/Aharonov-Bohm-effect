@@ -13,14 +13,23 @@ def step_potential(V0, x, y, x0, x1, y0, y1) :
     
     return (V0 * ((x[:, None] >= x0) & (x[:, None] <= x1) & (y[None, :] >= y0) & (y[None, :] <= y1))).ravel()
 
-def coulomb_potential() : 
+def coulomb_potential(rho, x, y, dx, dy) : 
     
-    return
+    xx, yy = np.meshgrid(x, y, indexing = 'ij')
+    
+    x_dist = (xx*A_0)[:,:,np.newaxis,np.newaxis] - (xx*A_0)
+    y_dist = (yy*A_0)[:,:,np.newaxis,np.newaxis] - (yy*A_0)
+    
+    r = np.sqrt(x_dist**2 + y_dist**2)  # Radial distance between points
+    
+    r[r==0] = np.finfo(float).eps   # Set zero values to machine epsilon (to avoid division by zero)
+    
+    V_xy = (rho * dx * dy * A_0**2/(4 * np.pi * EPSILON_0))*np.sum(1/r, axis = (2,3)) # [J]
+    
+    return (V_xy/E).transpose().flatten() # [eV]
 
 # Solenoid vector potential A (B = curlA)
-def solenoid_vector_potential(I, R, x, y, x0=0, y0=0) :
-    
-    mu_0 = 4*np.pi*1e-7
+def solenoid_vector_potential(I, R, x, y, x0=0.0, y0=0.0) :
     
     xx, yy = np.meshgrid(x, y, indexing = 'ij')
     
@@ -30,7 +39,7 @@ def solenoid_vector_potential(I, R, x, y, x0=0, y0=0) :
     
     A_r, A_x, A_y = np.zeros_like(r), np.zeros_like(r), np.zeros_like(r)
     
-    A_r[outside] = (mu_0*I*R**2)/(4*np.pi*r[outside]**3)
+    A_r[outside] = (MU_0*I*R**2)/(4*np.pi*r[outside]**3)
     A_x[outside] = - A_r[outside] * (yy[outside] - y0)
     A_x[outside] = A_r[outside] * (xx[outside] - x0)
     
