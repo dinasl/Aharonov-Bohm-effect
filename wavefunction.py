@@ -49,7 +49,7 @@ class WaveFunction:
         main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Central points (i,j) A matrix
         main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Central points (i,j) M matrix
         
-        off_diag = self.alpha * np.ones(self.Nx*self.Ny, dtype = np.complex128)    # Four neighbouring points
+        off_diag = self.alpha * np.ones(self.Nx*self.Ny, dtype = np.complex128)    # Four eighbouring points
         
         diags_A = np.array([main_diag_A, off_diag, off_diag, off_diag, off_diag])   # A diagonals
         diags_M = np.array([main_diag_M, -off_diag, -off_diag, -off_diag, -off_diag])   # M diagonals
@@ -58,68 +58,6 @@ class WaveFunction:
         
         self.A = sparse.diags(diags_A, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # A
         self.M = sparse.diags(diags_M, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # M
-        
-        # # Define LHS and RHS matrices discretizising the minimal coupling eq. 
-        
-        # N = (self.Nx - 1) * (self.Ny - 1)   # Number of internal points in domain
-        # size = 5*N + 2*self.Nx + 2*(self.Ny - 2)    # Number of nonzero entries in matrix system
-        #                                             # (points and their associated nearest neighbours)
-                                                    
-        # I, J = np.zeros(size), np.zeros(size) # Coordinate lists (COO): row, colum indices
-        # K_A, K_M = np.zeros(size, dtype = np.complex128), np.zeros(size, dtype = np.complex128) # Cooridinate values for A, M matrices
-        
-        # k = 0   # K-index (flattened)
-        
-        # # Iterate over all points domain
-        # for i in range(self.Ny) :
-        #     for j in range(self.Nx) :
-                
-        #         index = i + j*self.Ny
-                
-        #         if i==0 or i==self.Nx-1 or j==0 or j==self.Ny-1 :    # Boundary points
-                    
-        #             I[k] = index
-        #             J[k] = index
-        #             K_A[k] = 1
-        #             K_M[k] = 0
-                
-        #         else:                                                # Internal points
-                    
-        #             # Central point (i,j)
-        #             I[k] = index
-        #             J[k] = index
-        #             K_A[k] = 1.0j - 4*self.alpha - self.V[index]*dt/2
-        #             K_M[k] = 1.0j + 4*self.alpha + self.V[index]*dt/2
-                    
-        #             # Nearest neighbours
-        #             k += 1                      # (i-1,j)
-        #             I[k] = index
-        #             J[k] = (i-1) + j*self.Ny
-        #             K_A[k] = self.alpha
-        #             K_M[k] = -self.alpha
-                    
-        #             k += 1                      # (i+1,j)
-        #             I[k] = index
-        #             J[k] = (i+1) + j*self.Ny
-        #             K_A[k] = self.alpha
-        #             K_M[k] = -self.alpha
-                    
-        #             k += 1                      # (i,j-1)
-        #             I[k] = index
-        #             J[k] = i + (j-1)*self.Ny
-        #             K_A[k] = self.alpha
-        #             K_M[k] = -self.alpha
-                    
-        #             k += 1                      # (i,j+1)
-        #             I[k] = index
-        #             J[k] = i + (j+1)*self.Ny
-        #             K_A[k] = self.alpha
-        #             K_M[k] = -self.alpha
-                    
-        #         k += 1
-
-        # self.A = sparse.coo_matrix((K_A,(I,J)), shape = (self.Nx*self.Ny, self.Nx*self.Ny)).tocsc()     # LHS
-        # self.M = sparse.coo_matrix((K_M,(I,J)), shape = (self.Nx*self.Ny, self.Nx*self.Ny)).tocsc()    # RHS
 
     # Return probability density at each (x, y)
     def prob(self) :

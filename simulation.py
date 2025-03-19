@@ -44,3 +44,7 @@ def solenoid_vector_potential(I, R, x, y, x0=0.0, y0=0.0) :
     A_x[outside] = A_r[outside] * (xx[outside] - x0)
     
     return A_x.ravel(), A_y.ravel()
+
+def normalize(psi, x, y, Nx, Ny) :
+    
+    return np.trapz(np.trapz(((abs(psi))**2).reshape(Ny,Nx), x).real, y).real

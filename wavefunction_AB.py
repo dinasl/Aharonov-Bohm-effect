@@ -90,4 +90,11 @@ class WaveFunctionAB:
         # PML ?
         
         self.psi = bicgstab(self.A, self.M.dot(self.psi.ravel()), x0 = self.psi.ravel(), atol = 1e-6)[0]
+        self.psi /= self.total_prob()
         self.t += self.dt
+        
+    # def __add__(self, other) :
+        
+    #     psi = WaveFunctionAB(self.x, self.y, self.psi + other.psi, self.V, self.dt, 
+    #                          self.A_x, self.A_y, 
+    #                          hbar = self.hbar, m = self.m, t_0 = self.t_0, q = self.q)
