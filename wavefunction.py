@@ -58,6 +58,7 @@ class WaveFunction:
         
         self.A = sparse.diags(diags_A, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # A
         self.M = sparse.diags(diags_M, offsets, shape = (self.Nx*self.Ny, self.Nx*self.Ny), format = 'csc')    # M
+        
 
     # Return probability density at each (x, y)
     def prob(self) :

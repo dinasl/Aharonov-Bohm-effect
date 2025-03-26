@@ -44,22 +44,31 @@ class WaveFunctionAB:
         self.Nx, self.Ny = len(x), len(y)
         self.t = t_0
         self.dt = dt
-        self.alpha = self.dt/(4*self.dx**2)
-        
+                
         # Define QM consants
         self.hbar = hbar
         self.m = m
         self.q = q
+        
+        self.alpha = self.dt/(2*self.dx**2)
                 
         # PML parameters
         
         # Construct LHS (A) and RHS (M) matrices discretizising the minimal coupling eq. 
         
-        main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Central points (i,j) A matrix
-        main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Central points (i,j) M matrix
+        # main_diag_A = (1.0j - 4*self.alpha - self.V*dt/2).ravel()    # Central points (i,j) A matrix
+        # main_diag_M = (1.0j + 4*self.alpha + self.V*dt/2).ravel()     # Central points (i,j) M matrix
         
-        off_diag_below = off_diag_left = self.alpha - 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx - self.A_y * self.dt/self.dy).ravel()   # (i-1,j) and (i,j-1) points
-        off_diag_above = off_diag_right = self.alpha + 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx + self.A_y * self.dt/self.dy).ravel()  # (i+1,j) and (i,j+1) points
+        main_diag_A = (1.0j - 4*self.alpha - (self.q/self.hbar)**2 * self.dt * (self.A_x**2 + self.A_y**2) - self.V*self.dt/2).ravel() #last termshould be divided by hbar?
+        main_diag_M = (1.0j + 4*self.alpha + (self.q/self.hbar)**2 * self.dt * (self.A_x**2 + self.A_y**2) + self.V*self.dt/2).ravel()        
+        
+        # off_diag_below = off_diag_left = self.alpha - 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx - self.A_y * self.dt/self.dy).ravel()   # (i-1,j) and (i,j-1) points
+        # off_diag_above = off_diag_right = self.alpha + 0.5j * (q/hbar) * (self.A_x * self.dt/self.dx + self.A_y * self.dt/self.dy).ravel()  # (i+1,j) and (i,j+1) points
+        
+        off_diag_left = (self.alpha + 0.25j * (self.q/self.hbar) * self.A_x * self.dt/self.dx).ravel()
+        off_diag_right = (self.alpha - 0.25j * (self.q/self.hbar) * self.A_x * self.dt/self.dx).ravel()
+        off_diag_above = (self.alpha + 0.25j * (self.q/self.hbar) * self.A_y * self.dt/self.dy).ravel()
+        off_diag_below = (self.alpha - 0.25j * (self.q/self.hbar) * self.A_y * self.dt/self.dy).ravel()
         
         diags_A = np.array([main_diag_A, off_diag_below, off_diag_above, off_diag_left, off_diag_right])   # A diagonals
         diags_M = np.array([main_diag_M, -off_diag_below, -off_diag_above, -off_diag_left, -off_diag_right])   # M diagonals

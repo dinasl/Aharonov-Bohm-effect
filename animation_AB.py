@@ -7,11 +7,8 @@ from matplotlib import animation
 
 # Animation parameters
 # start_clock = time.time()
-N_frames = 100  # Number of frames the animation will consist of
+N_frames = 200  # Number of frames the animation will consist of
 N_levels = 200  # Number of energy levels in contour plot 
-# dt = 0.005  # Time step
-
-# N_frames = 20
 dt = 0.005
 
 # Define spatial domain
@@ -23,8 +20,9 @@ Nx = len(x)
 Ny = len(y)
 
 # Aharanov-Bohm parameters
-I = 5e-7        # Current in amps [A]
+I = 1e-6        # Current in amps [A]
 R = 0.2         # Radius of solenoid [m]
+# I = 0.0
 
 # Create double slit using three potential barriers
 V_0 = 4000   # Magntitude of potential barriers
@@ -39,8 +37,7 @@ separation = x0_3, x1_3, y0_3, y1_3 = -width, width, -d+s, d-s  # Slit separatio
 V_slit = step_potential(V_0, x, y, x0_1, x1_1, y0_1, y1_1) + step_potential(V_0, x, y, x0_2, x1_2, y0_2, y1_2) + step_potential(V_0, x, y, x0_3, x1_3, y0_3, y1_3)
 
 # Create solenoid vector potentials
-x0_solenoid = 1.0
-# I = 0.0
+x0_solenoid = 0.5
 A_x, A_y = solenoid_vector_potential(I, R, x, y, x0=x0_solenoid)
 
 # Create initial wavefunctions
@@ -65,8 +62,8 @@ psi_0_e2 = gaussian_wavepacket(xx, yy, x0_e2, y0_e2, ox, oy, k_x0, k_y0).transpo
 # electron = WaveFunctionAB(x, y, psi_0, V_slit, dt, A_x, A_y, hbar = HBAR)
 # electron.psi = electron.psi/electron.total_prob()   # Normalize
 
-e1 = WaveFunctionAB(x, y, psi_0_e1, V_slit, dt, A_x, A_y, hbar = HBAR)
-e2 = WaveFunctionAB(x, y, psi_0_e2, V_slit, dt, A_x, A_y, hbar = HBAR)
+e1 = WaveFunctionAB(x, y, psi_0_e1, V_slit, dt, A_x, A_y, hbar = HBAR, m = M_E)
+e2 = WaveFunctionAB(x, y, psi_0_e2, V_slit, dt, A_x, A_y, hbar = HBAR, m = M_E)
 
 # Normalize (before or afer addition?)
 
@@ -79,19 +76,10 @@ fig, ax = plt.subplots(1, 2, figsize = (13,6))
 
 # 2D probability density plot (ax[0])
 
-# z = electron.prob().reshape(electron.Nx, electron.Ny).transpose()
-# z1 = e1.prob().reshape(e1.Nx, e1.Ny).transpose()
-# z2 = e2.prob().reshape(e2.Nx, e2.Ny).transpose()
-
-# z = z1 + z2 + 2 * np.sqrt(z1 * z2) * np.cos(e1.t - e2.t)  # Interference term
-
 psi = e1.psi + e2.psi
 psi = psi/np.sqrt(normalize(psi, x, y, Nx, Ny))
 
 z = ((abs(psi))**2).reshape(Nx, Ny).transpose()
-
-# z1 = e1.prob().reshape(e1.Nx, e1.Ny).transpose()
-# z2 = e1.prob().reshape(e2.Nx, e2.Ny).transpose()
 
 level = np.linspace(0, z.max(), N_levels)
 # level = np.linspace(0, max([z1.max(), z2.max()]), N_levels)
@@ -102,6 +90,8 @@ cmap = ax[0].contourf(xx, yy, z, levels = level, cmap = plt.cm.jet)
 ax[0].set_title('Probability Density (2D)')
 ax[0].set_xlabel(R'$x/a_0$')
 ax[0].set_ylabel(R'$y/ a_0$')
+ax[0].set_xlim(x.min(), x.max())
+ax[0].set_ylim(y.min(), y.max())
 
 # ax[0].contourf(xx, yy, z1, levels = level, cmap = plt.cm.jet)
 # ax[0].contourf(xx, yy, z2, levels = level, cmap = plt.cm.jet)
@@ -113,7 +103,7 @@ ax[0].set_ylabel(R'$y/ a_0$')
 
 # Cross-sectional probaility density at "wall"
 
-x_wall = 6.0 + 13.0
+x_wall = 6.0 + x_max
 j_wall = int(x_wall//dx)
 
 ax[1].plot(y, z[:,j_wall])
@@ -140,12 +130,12 @@ def plot_double_slit(ax1, ax2, top, bottom, separation) :
     ax1.hlines(separation[3], separation[0], separation[1], colors='white', zorder=2)
     
     # 3D slits
-    z_i = 0.0
-    ax2.plot([bottom[0],bottom[1],bottom[1],bottom[0],bottom[0]], [bottom[2],bottom[2],bottom[3],bottom[3],bottom[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
-    ax2.plot([top[0],top[1],top[1],top[0],top[0]], [top[2],top[2],top[3],top[3],top[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
-    ax2.plot([separation[0],separation[1],separation[1],separation[0],separation[0]], [separation[2],separation[2],separation[3],separation[3],separation[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
+    # z_i = 0.0
+    # ax2.plot([bottom[0],bottom[1],bottom[1],bottom[0],bottom[0]], [bottom[2],bottom[2],bottom[3],bottom[3],bottom[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
+    # ax2.plot([top[0],top[1],top[1],top[0],top[0]], [top[2],top[2],top[3],top[3],top[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
+    # ax2.plot([separation[0],separation[1],separation[1],separation[0],separation[0]], [separation[2],separation[2],separation[3],separation[3],separation[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
 
-# plot_double_slit(ax[0], ax[1], top, bottom, separation)
+plot_double_slit(ax[0], ax[1], top, bottom, separation)
 
 def update(frame) :
     
@@ -186,11 +176,12 @@ def update(frame) :
 
     ax[1].plot(y, z[:,j_wall])
     ax[1].set_ylim(0.0, 0.02)
-    # ax[1].plot(y, z[:,j_wall])
+    ax[0].set_xlim(x.min(), x.max())
+    ax[0].set_ylim(y.min(), y.max())
     ax[0].vlines(x_wall, y.min(), y.max())
     
     # Draw double slit
-    # plot_double_slit(ax[0], ax[1], top, bottom, separation)
+    plot_double_slit(ax[0], ax[1], top, bottom, separation)
     
     ax[0].set_title('Probability Density (2D)')
     ax[0].set_xlabel(R'$x/a_0$')
@@ -209,9 +200,10 @@ def update(frame) :
 
 # RUN ANIMATION
 
-for i in range(250) :
+for i in range(100) :
     e1.CN_step()
     e2.CN_step()
 
 animate = animation.FuncAnimation(fig, update, frames = N_frames, interval = 50, blit = False)
 animate.save('double_slit_AB(3).gif', writer = 'Pillow')
+# animate.save('double_slit_AB_noA(3).gif', writer = 'Pillow')

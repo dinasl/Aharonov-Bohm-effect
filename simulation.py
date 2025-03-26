@@ -39,7 +39,7 @@ def solenoid_vector_potential(I, R, x, y, x0=0.0, y0=0.0) :
     
     A_r, A_x, A_y = np.zeros_like(r), np.zeros_like(r), np.zeros_like(r)
     
-    A_r[outside] = (MU_0*I*R**2)/(4*np.pi*r[outside]**3)
+    A_r[outside] = (MU_0*I*R**2)/(4*np.pi*r[outside])
     A_x[outside] = - A_r[outside] * (yy[outside] - y0)
     A_x[outside] = A_r[outside] * (xx[outside] - x0)
     
