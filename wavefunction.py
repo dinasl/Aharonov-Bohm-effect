@@ -1,16 +1,11 @@
 import numpy as np
 from scipy import sparse
 from scipy.sparse.linalg import spsolve
-
-# Define QM constants
-EPSILON0 = 8.65e-12     # Vacuum permittivity [F/m]
-HBAR = 1.05e-34         # Planck's reduced constant h/2pi [Js]
-ECHARGE = 1.6e-19       # elementary charge [C]
-M_E = 9.11e-31          # electron mass [kg]
+from scipy.sparse.linalg import bicgstab
 
 class WaveFunction:
     
-    def __init__(self, x, y, psi_0, V, dt, hbar = 1.0, m = 1.0, t_0 = 0.0) :
+    def __init__(self, x, y, psi_0, V, dt, t_0 = 0.0) :
         
         '''
         x, y        x- and y-interval on which problem is defined   
@@ -22,7 +17,7 @@ class WaveFunction:
         t_0         initial time (default=0)   
         
         psi         wavefunction
-        dx, dy      spatial resolution
+        dl          spatial resolution
         Nx, Ny      x- and y- grid size
         t           time stamp
         alpha       dicretization constant in CN scheme
@@ -34,15 +29,12 @@ class WaveFunction:
         
         # Spatial domain
         self.x, self.y = np.array(x), np.array(y)
-        self.dx, self.dy = x[1] - x[0], y[1] - y[0]     # Spatial domain (grid) resolution
-        self.Nx, self.Ny = len(x), len(y)               # Number of grid points
+        self.dl = x[1] - x[0]               # Spatial domain (grid) resolution
+        self.Nx, self.Ny = len(x), len(y)   # Number of grid points
         self.t = t_0
         self.dt = dt
-        self.alpha = self.dt/(4*self.dx**2)
         
-        # Define QM consants
-        self.hbar = hbar
-        self.m = m
+        self.alpha = self.dt/(4*self.dl**2)
 
         # Construct LHS (A) and RHS (M) CSC matrices
         
@@ -73,6 +65,7 @@ class WaveFunction:
     # Crank-Nicholson step
     def CN_step(self) :
         
-        self.psi = spsolve(self.A, self.M.dot(self.psi))    # Solve Ax_{n+1} = Mx_{n} at time t using CN
+        # self.psi = spsolve(self.A, self.M.dot(self.psi)) # Solve Ax_{n+1} = Mx_{n} at time t
+        self.psi = bicgstab(self.A, self.M.dot(self.psi.ravel()), x0 = self.psi.ravel(), atol = 1e-6)[0] # Solve Ax_{n+1} = Mx_{n} at time t
         
-        self.t += self.dt       # Update time
+        self.t += self.dt # Update time
