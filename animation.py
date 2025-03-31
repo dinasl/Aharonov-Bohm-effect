@@ -1,7 +1,10 @@
-from simulation import *
-
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
+
+from wavefunction import WaveFunction
+
+from simulation import gaussian_wavepacket, step_potential, plot_double_slit_2D, plot_double_slit_3D
 
 # ANIMATION PARAMETERS 
 
@@ -9,9 +12,8 @@ N_frames = 300  # Number of frames
 N_levels = 200  # Number of energy levels in contour plots
 
 # Define spatial domain
-dl = 0.1
-x_min, x_max = -12, 12
-y_min, y_max = -12, 12
+dl = 0.1 # Spatial resolution
+x_min, x_max = y_min, y_max = -12, 12
 
 x, y = np.arange(x_min, x_max+dl, dl), np.arange(y_min, y_max+dl, dl)
 
@@ -43,7 +45,6 @@ psi_0 = gaussian_wavepacket(xx, yy, x0, y0, ox, oy, k_x0, k_y0).transpose().resh
 
 electron = WaveFunction(x, y, psi_0, V_slit, dt)
 electron.psi = electron.psi/np.sqrt(electron.total_prob())   # Normalize
-# electron.psi = electron.psi/electron.total_prob()   # Normalize
 
 z = electron.prob().reshape(electron.Nx, electron.Ny).transpose() # Probability density
 
@@ -71,27 +72,6 @@ ax[1].set_title('Probability Density (3D)')
 ax[1].set_xlabel(R'$x/a_0$')
 ax[1].set_ylabel(R'$y/ a_0$')
 ax[1].set_zlabel(R'$|\psi|^2$')
-
-def plot_double_slit_2D(ax1, top, bottom, separation) :
-    
-    # 2D slits
-    ax1.vlines(bottom[0], bottom[2], bottom[3], colors='white', zorder=2)
-    ax1.vlines(bottom[1], bottom[2], bottom[3], colors='white', zorder=2)
-    ax1.vlines(top[0], top[2], top[3], colors='white', zorder=2)
-    ax1.vlines(top[1], top[2], top[3], colors='white', zorder=2)
-    ax1.hlines(bottom[3], bottom[0], bottom[1], colors='white', zorder=2)
-    ax1.hlines(top[2], bottom[0], bottom[1], colors='white', zorder=2)
-    ax1.vlines(separation[0], separation[2], separation[3], colors='white', zorder=2)
-    ax1.vlines(separation[1], separation[2], separation[3], colors='white', zorder=2)
-    ax1.hlines(separation[2], separation[0], separation[1], colors='white', zorder=2)
-    ax1.hlines(separation[3], separation[0], separation[1], colors='white', zorder=2)
-    
-def plot_double_slit_3D(ax2, top, bottom, separation) :
-    # 3D slits
-    z_i = 0.0
-    ax2.plot([bottom[0],bottom[1],bottom[1],bottom[0],bottom[0]], [bottom[2],bottom[2],bottom[3],bottom[3],bottom[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
-    ax2.plot([top[0],top[1],top[1],top[0],top[0]], [top[2],top[2],top[3],top[3],top[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
-    ax2.plot([separation[0],separation[1],separation[1],separation[0],separation[0]], [separation[2],separation[2],separation[3],separation[3],separation[2]], z_i*np.ones(5), color='k', linewidth=1, zorder=2, alpha=1.)
 
 plot_double_slit_2D(ax[0], top, bottom, separation)
 plot_double_slit_3D(ax[1], top, bottom, separation)
