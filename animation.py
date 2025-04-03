@@ -97,6 +97,7 @@ ax[1].set_ylabel(R"$|\psi|^2$")
 # plot_double_slit_3D(ax[1], top, bottom, separation) # Draw double slit
 # -------------------------------------------------------------------------------
 
+# ANIMATE
 def update(frame) :
     
     electron.CN_step() # Perform timestep
@@ -114,7 +115,7 @@ def update(frame) :
     # colorbar = fig.colorbar(cmap, ax=ax[0])
     ax[0].vlines(x_screen, y.min(), y.max()) # Draw screen
     
-    plot_double_slit_2D(ax[0], top, bottom, separation) # 2D
+    plot_double_slit_2D(ax[0], top, bottom, separation) # Draw double slit
     
     ax[0].set_title("Probability Density (2D)")
     ax[0].set_xlabel(R"$\tilde{x}$")
