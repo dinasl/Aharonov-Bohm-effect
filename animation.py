@@ -139,4 +139,4 @@ def update(frame) :
 # RUN ANIMATION
 
 animate = animation.FuncAnimation(fig, update, frames = N_frames, interval = 50, blit = False)
-animate.save("double_slit(4).gif", writer = "Pillow")
+animate.save("animations/double_slit(4).gif", writer = "Pillow")

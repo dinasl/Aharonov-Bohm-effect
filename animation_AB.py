@@ -89,9 +89,9 @@ cmap = ax[0].contourf(xx, yy, z, levels = level, cmap = plt.cm.jet)
 
 plot_double_slit_2D(ax[0], top, bottom, separation) # Draw double slit
 
-ax[0].set_title('Probability density (2D)')
-ax[0].set_xlabel(R'$\tilde{x}$')
-ax[0].set_ylabel(R'$\tilde{y}$')
+ax[0].set_title("Probability density (2D)")
+ax[0].set_xlabel(R"$\tilde{x}$")
+ax[0].set_ylabel(R"$\tilde{y}$")
 
 # Cross-sectional probaility density at "screen" (ax[1])
 
@@ -102,9 +102,9 @@ j_wall = int(x_tot//dl)
 ax[1].plot(y, z[:,j_wall], color = "#002C80")
 ax[1].set_ylim(0.0, 0.04)
 
-ax[1].set_title(f'Probability density at x = {x_screen}')
-ax[1].set_xlabel(R'$\tilde{y}$')
-ax[1].set_ylabel(R'$|\psi|^2$')
+ax[1].set_title(f"Probability density at x = {x_screen}")
+ax[1].set_xlabel(R"$\tilde{y}$")
+ax[1].set_ylabel(R"$|\psi|^2$")
 
 # ANIMATE
 def update(frame) :
@@ -134,9 +134,9 @@ def update(frame) :
     if AB : ax[0].add_patch(circle)
     ax[0].vlines(x_screen, y.min(), y.max()) # Draw screen
     
-    ax[0].set_title('Probability density (2D)')
-    ax[0].set_xlabel(R'$\tilde{x}$')
-    ax[0].set_ylabel(R'$\tilde{y}$')
+    ax[0].set_title("Probability density (2D)")
+    ax[0].set_xlabel(R"$\tilde{x}$")
+    ax[0].set_ylabel(R"$\tilde{y}$")
     
     ax[0].text(-x_max + 1, y_max - 1, fR"$\tau =${round(e1.t,3)}", color = "white") # Plot time stamp
     
@@ -145,9 +145,9 @@ def update(frame) :
     ax[1].plot(y, z[:,j_wall], color = "#002C80")
     ax[1].set_ylim(0.0, 0.04)
     
-    ax[1].set_title(f'Probability density at x = {x_screen}')
-    ax[1].set_xlabel(R'$\tilde{y}$')
-    ax[1].set_ylabel(R'$|\psi|^2$')
+    ax[1].set_title(f"Probability density at x = {x_screen}")
+    ax[1].set_xlabel(R"$\tilde{y}$")
+    ax[1].set_ylabel(R"$|\psi|^2$")
     
     if frame == 170 : fig.savefig("test.pdf")
     
@@ -157,5 +157,5 @@ def update(frame) :
 
 animate = animation.FuncAnimation(fig, update, frames = N_frames, interval = 50, blit = False)
 
-if AB : animate.save('double_slit_AB(4).gif', writer = 'Pillow')
-else : animate.save('double_slit_AB_noA(4).gif', writer = 'Pillow')
+if AB : animate.save("animations/double_slit_AB(4).gif", writer = "Pillow")
+else : animate.save("animations/double_slit_AB_noA(4).gif", writer = "Pillow")
