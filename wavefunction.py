@@ -65,7 +65,7 @@ class WaveFunction:
     # Crank-Nicholson step
     def CN_step(self) :
         
-        # self.psi = spsolve(self.A, self.M.dot(self.psi)) # Solve Ax_{n+1} = Mx_{n} at time t
+        # self.psi = spsolve(self.A, self.M.dot(self.psi)) # Solve Ax_{n+1} = Mx_{n} at time t # bicgstab much faster
         self.psi = bicgstab(self.A, self.M.dot(self.psi.ravel()), x0 = self.psi.ravel(), atol = 1e-6)[0] # Solve Ax_{n+1} = Mx_{n} at time t
         
         self.t += self.dt # Update time
