@@ -13,14 +13,13 @@ class WaveFunctionAB:
         dt          timestep
         A_x, A_y    x- and y-components of magnetic vector potential
         hbar        reduced Plank's constant (default=1)
-        m           particle mass (default=1)
         t_0         initial time (default=0)   
-        q           particle charge (degfault=1eV)
         
         psi         wavefunction
         dl          spatial resolution
         Nx, Ny      x- and y- grid size
         t           time
+        alpha, beta discretization constants in CN scheme
         A, M        LHS, RHS sparse matrices (CSC) for CN_scheme: Ax_{n+1} = Mx_{n}
         '''
         
@@ -36,6 +35,7 @@ class WaveFunctionAB:
         self.t = t_0
         self.dt = dt
         
+        #CN-scheme constants
         self.alpha = self.dt/(4*self.dl**2)
         self.beta = self.dt/(8*self.dl**2)
         
@@ -76,4 +76,4 @@ class WaveFunctionAB:
         
         self.psi = bicgstab(self.A, self.M.dot(self.psi.ravel()), x0 = self.psi.ravel(), atol = 1e-6)[0]
         self.psi /= self.total_prob()
-        self.t += self.dt
+        self.t += self.dt # Update time
