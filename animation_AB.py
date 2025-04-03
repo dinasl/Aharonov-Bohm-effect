@@ -53,8 +53,8 @@ A_x, A_y = solenoid_vector_potential(I, R, x, y, x0=x0_solenoid)
 xx, yy = np.meshgrid(x, y)
 
 x0 = -5.0
-y0_e1 = d
-y0_e2 = -d
+y0_e1 = d # Top path
+y0_e2 = -d # Bottom path
 
 k_x0, k_y0 = 20, 0
 ox = oy = 2.0
@@ -127,7 +127,7 @@ def update(frame) :
     level = np.linspace(0, z.max(), N_levels)
     
     cmap = ax[0].contourf(xx, yy, z, levels=level, cmap = plt.cm.jet)
-    # colorbar = fig.colorbar(cmap, ax=ax[0]) # Runs suuuper slow!!!
+    # colorbar = fig.colorbar(cmap, ax=ax[0]) # RUNS SUUUPER SLOW!!
     
     plot_double_slit_2D(ax[0], top, bottom, separation) # Draw double slit
     circle = patches.Circle((x0_solenoid, 0.0), R, edgecolor = "none", facecolor = "lightgrey", linewidth = 1)
@@ -152,6 +152,8 @@ def update(frame) :
     if frame == 170 : fig.savefig("test.pdf")
     
     print(frame+1)
+
+# RUN ANIMATION
 
 animate = animation.FuncAnimation(fig, update, frames = N_frames, interval = 50, blit = False)
 
