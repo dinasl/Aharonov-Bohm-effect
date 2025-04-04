@@ -13,13 +13,15 @@ i \hbar \frac{d}{dt} \Psi = \hat{H}\Psi,
 \tag{SE}
 $$
 
-\noindent where $\hat{H}$ is the Hamiltonian of the system. Consider a particle with charge $q$ moving in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. The fields are given by
+where $\hat{H}$ is the Hamiltonian of the system. Consider a particle with charge $q$ moving in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. The fields are given by
 
+$$
 \begin{align}
     \mathbf{E} &= -\nabla \phi - \partial_t\mathbf{A} \:\:\:  \text{and} \tag{1} \\
     \mathbf{B} &= \nabla \times \mathbf{A},
 \tag{2}
 \end{align}
+$$
 
 where $\phi$ is the electric potenital and $\mathbf{A}$ is the magnetic vector potential. The Hamiltonian is given by
 
