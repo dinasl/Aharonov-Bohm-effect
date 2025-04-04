@@ -8,10 +8,10 @@ This is a short summary. The full report can be read [here](AB_report.pdf).
 
 The wavefunction of a non-relativistic quantum system is governed by the Schrödinger equation $(\text{SE})$
 
-\[
+$$
 i \hbar \frac{d}{dt} \Psi = \hat{H}\Psi,
 \tag{SE}
-\]
+$$
 
 \noindent where $\hat{H}$ is the Hamiltonian of the system. Consider a particle with charge $q$ moving in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. The fields are given by
 
