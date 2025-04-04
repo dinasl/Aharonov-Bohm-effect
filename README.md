@@ -71,25 +71,23 @@ $$
 
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
-$$
-    (I + \frac{i\Delta t}{2}\tilde{H}_{disc})\Psi^{n+1} &= (I - \frac{i\Delta t}{2}\tilde{H}_{disc})\Psi^n,
-$$
-$$
-    A\Psi^{n+1} &= M\Psi^n.
-$$
+$$(I + \frac{i\Delta t}{2}\tilde{H}_{disc})\Psi^{n+1} = (I - \frac{i\Delta t}{2}\tilde{H}_{disc})\Psi^n$$
+
+$$A\Psi^{n+1} = M\Psi^n$$
 
 Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
-$\{i - 4\alpha - \Delta\tau[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}^{n+1}$ \\
-$+ \{\alpha + i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n+1}
-+ \{\alpha - i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n+1}$ \\
-$+ \{\alpha + i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n+1}
-+ \{\alpha - i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n+1}$ \\
-$= \{i - 4\alpha - \Delta\tau[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}^{n}$ \\
-$+ \{-\alpha - i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n}
-+ \{-\alpha + i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n}$ \\
-$+ \{-\alpha - i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n}
-+ \{-\alpha + i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n}.$
+$\{i - 4\alpha - \Delta\tau[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}^{n+1}$
+
+$+ \{\alpha + i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n+1} + \{\alpha - i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n+1}$
+
+$+ \{\alpha + i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n+1} + \{\alpha - i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n+1}$
+
+$= \{i - 4\alpha - \Delta\tau[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}^{n}$
+
+$+ \{-\alpha - i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n} + \{-\alpha + i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n}$
+
+$+ \{-\alpha - i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n} + \{-\alpha + i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n}$
 
 where we have introduced the constants
 
