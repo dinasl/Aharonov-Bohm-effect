@@ -1,27 +1,25 @@
-## Simulating the Aharonov-Bohm effect using the Crank-Nicolson scheme
+# Simulating the Aharonov-Bohm effect using the Crank-Nicolson scheme
 
 The following implementation has been adapted from the work of [Felix Deschroeters](https://github.com/FelixDesrochers/Electron-diffraction) and [Benjamin Colmey](https://github.com/bcolmey/Aharonov-Bohm-Space-Charge-Effects-in-Python). The Crank-Nicolson (CN) scheme is used to solve the minimal coupling rule in an attempt to simulate the Aharonov-Bohm effect - a quantum phenomenon demonstrating the physical significance of electromagnetic potentials, even in regions where their respective electromagnetic fields are zero. 
 
 This is a short summary. The full report can be read [here](AB_report.pdf).
 
-#### Minimal coupling
+### Minimal coupling
 
 The wavefunction of a non-relativistic quantum system is governed by the Schrödinger equation $(\text{SE})$
 
-$$
+\end{align}
 i \hbar \frac{d}{dt} \Psi = \hat{H}\Psi,
 \tag{SE}
-$$
+\end{align}
 
 where $\hat{H}$ is the Hamiltonian of the system. Consider a particle with charge $q$ moving in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. The fields are given by
 
-$$
 \begin{align}
-    \mathbf{E} &= -\nabla \phi - \partial_t\mathbf{A} \:\:\:  \text{and} \tag{1} \\
+    \mathbf{E} &= -\nabla \phi - \partial_t\mathbf{A} \quad  \text{and} \tag{1} \\
     \mathbf{B} &= \nabla \times \mathbf{A},
 \tag{2}
 \end{align}
-$$
 
 where $\phi$ is the electric potenital and $\mathbf{A}$ is the magnetic vector potential. The Hamiltonian is given by
 
@@ -39,7 +37,7 @@ This, combined with $(\text{SE})$ is commonly known as the *minimal coupling rul
 
 As opposed to $\mathbf{E}$ and $\mathbf{B}$, the potetials $\phi$ and $\mathbf{A}$ in electrodynamics are *not* physical fields. However, in quantum mechanics they play a more direct role, as can be seen in $(4)$. A physical consequence ofthis was demonstrated by physicists Yakir Aharonov and David Bohm in 1959 $[5]$, when they showed that the vector potentials can affect the quantum-mechanical behavior of charged particles, even when confined to a region where $\mathbf{E}$ and $\mathbf{B}$ are zero.
 
-#### Scaling of the diffierential equation
+### Scaling of the diffierential equation
 
 We can make $(4)$ dimensionless by introducing the following parameters
 
@@ -69,7 +67,7 @@ where
 \tag{8}
 \end{align}
 
-#### Solving the 2D SE with minimal coupling using the CN scheme
+### Solving the 2D SE with minimal coupling using the CN scheme
 
 The CN method is an implicit, second-order time integration method that uses centered differences. $(7)$ is approximated as
 
@@ -114,7 +112,7 @@ For simplicity, we have assumed that $\Delta x = \Delta y \equiv \Delta l$.
 
 It's worth noting that because the CN scheme is numerically implicit, it is computationally expensive. However, when taking a look at $(10)$, $\tilde{H}_{disc}$ takes a block-tri-diagonal form. One can therefore take great advantage of the use of sparse matrix storage formats, such as the \textit{compressed sparse column} (CSC) format, which used in the code implementation.
 
-#### Results
+### Results
 
 **Single electron**
 
@@ -140,7 +138,7 @@ $\mathbf{A} \neq 0$
 
 *Solenoid vector potential.*
 
-#### References
+### References
 
 $[1]$ Jean-Pierre Beregner. A perfectly matched layer for the absorption of electromagnetic waves. *Jounal of Computational Physics*,
 114(2):185–200, 1994. DOI: https://doi.org/10.1006/jcph.1994.1159
