@@ -81,26 +81,26 @@ $$
 Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
 $$
-\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1}
+    \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1}
 $$
 $$
-+ \left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
-+ \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1}
+    + \left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
+    + \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1}
 $$
 $$
-+ \left\{\alpha + i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n+1}
-+ \left\{\alpha - i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n+1}
+    + \left\{\alpha + i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n+1}
+    + \left\{\alpha - i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n+1}
 $$
 $$
-= \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n}
+    = \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n}
 $$
 $$
-+ \left\{-\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n}
-+ \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n}
+    + \left\{-\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n}
+    + \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n}
 $$
 $$
-+ \left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
-+ \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n},
+    + \left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
+    + \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n},
 $$
 
 where we have introduced the constants
