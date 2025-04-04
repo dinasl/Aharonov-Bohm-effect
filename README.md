@@ -66,32 +66,30 @@ $$
 The CN method is an implicit, second-order time integration method that uses centered differences. The dimensionless minimal coupling rule is approximated as
 
 $$
-    i\frac{\Psi^{n+1} - \Psi^n}{\Delta \tau} = \frac{1}{2} \tilde{H}_{disc} (\Psi^{n+1} + \Psi^n),
+    i\frac{\Psi^{n+1} - \Psi^n}{\Delta \tau} = \frac12 \tilde{H}_{disc} (\Psi^{n+1} + \Psi^n),
 $$
 
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
-$$\left(I + \frac{i\Delta \tau}{2}\tilde{H}_{disc}\right)\Psi^{n+1} = \left(I - \frac{i\Delta \tau}{2}\tilde{H}_{disc}\right)\Psi^n$$
-
-$$A\Psi^{n+1} = M\Psi^n$$
+$$
+    \left(I + \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^{n+1} &= \left(I - \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^n,
+$$
+$$
+    A\Psi^{n+1} &= M\Psi^n.
+$$
 
 Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
-**Diagonal term**:
-$$\{i - 4\alpha - \Delta\tau[\frac{1}{2}(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}$$
-
-**Neighbor terms (n+1)**:
-$$\begin{aligned}
-&+ \{\alpha + i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n+1} + \{\alpha - i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n+1} \\
-&+ \{\alpha + i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n+1} + \{\alpha - i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n+1}
-\end{aligned}$$
-
-**Right-hand side (n terms)**:
-$$\begin{aligned}
-&= \{i - 4\alpha - \Delta\tau[\frac{1}{2}(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}]\}\Psi_{i,j}^{n} \\
-&+ \{-\alpha - i\tilde{A}_x\beta\}\Psi_{i,j+1}^{n} + \{-\alpha + i\tilde{A}_x\beta\}\Psi_{i,j-1}^{n} \\
-&+ \{-\alpha - i\tilde{A}_y\beta\}\Psi_{i+1,j}^{n} + \{-\alpha + i\tilde{A}_y\beta\}\Psi_{i-1,j}^{n}
-\end{aligned}$$
+$\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1}$ \\
+$+ \left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
++ \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1}$ \\
+$+ \left\{\alpha + i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n+1}
++ \left\{\alpha - i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n+1}$ \\
+$= \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n}$ \\
+$+ \left\{-\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n}
++ \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n}$ \\
+$+ \left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
++ \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n}.$
 
 where we have introduced the constants
 
