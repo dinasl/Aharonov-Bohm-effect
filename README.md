@@ -77,7 +77,7 @@ $$
 Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
 $$
-\begin{align}
+\begin{aligned}
 &\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1} \notag \\
 + &\left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
 + \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1} \notag \\
@@ -88,7 +88,7 @@ $$
 + \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n} \notag \\
 + &\left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
 + \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n},
-\end{align}
+\end{aligned}
 $$
 
 where we have introduced the constants
