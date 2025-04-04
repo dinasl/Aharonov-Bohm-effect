@@ -71,7 +71,7 @@ $$
 
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
-$$(I + \frac{i \Delta t}{2}\tilde{H}_{disc})\Psi^{n+1} = (I - \frac{i\Delta t}{2}\tilde{H}_{disc})\Psi^n,$$
+$$ \Bigg( I + \frac{i \Delta t}{2}\tilde{H}_{disc} \Bigg) \Psi ^{n+1} =  \Bigg( I - \frac{i\Delta t}{2}\tilde{H}_{disc} \Bigg) \Psi ^n,$$
 
 $$A\Psi^{n+1} = M\Psi^n.$$
 
@@ -79,23 +79,23 @@ Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$)
 
 $$ \Bigg( i - 4\alpha - \Delta\tau \Bigg[\frac{1}{2} (\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V} \Bigg] \Bigg) \Psi _{i,j}^{n+1}$$
  
-$$+  \{ \alpha + i \tilde{A}_x\beta \}\Psi _{i,j+1}^{n+1}$$
+$$+  \Bigg( \alpha + i \tilde{A}_x\beta \Bigg) \Psi _{i,j+1}^{n+1}$$
 
-$$+ \{ \alpha - i \tilde{A}_x\beta \}\Psi _{i,j-1}^{n+1}$$
+$$+ \Bigg( \alpha - i \tilde{A}_x\beta \Bigg) \Psi _{i,j-1}^{n+1}$$
 
-$$+ \{ \alpha + i \tilde{A}_y\beta \}\Psi _{i+1,j}^{n+1}$$
+$$+ \Bigg( \alpha + i \tilde{A}_y\beta \Bigg) \Psi _{i+1,j}^{n+1}$$
  
-$$+\{ \alpha - i \tilde{A}_y\beta \}\Psi _{i-1,j}^{n+1}$$
+$$+ \Bigg( \alpha - i \tilde{A}_y\beta \Bigg) \Psi _{i-1,j}^{n+1}$$
 
-$$= \{i - 4\alpha - \Delta\tau \Bigg[\frac{1}{2}(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\Bigg] \}\Psi _{i,j}^{n}$$
+$$= \Bigg( i - 4\alpha - \Delta\tau \Bigg[\frac{1}{2}(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\Bigg] \Bigg) \Psi _{i,j}^{n}$$
 
-$$+ \{-\alpha - i \tilde{A}_x \beta  \} \Psi _{i,j+1}^{n}$$
+$$+ \Bigg( -\alpha - i \tilde{A}_x \beta  \Bigg) \Psi _{i,j+1}^{n}$$
 
-$$+ \{-\alpha + i \tilde{A}_x \beta \} \Psi _{i,j-1}^{n}$$
+$$+ \Bigg( -\alpha + i \tilde{A}_x \beta \Bigg) \Psi _{i,j-1}^{n}$$
 
-$$+ \{-\alpha - i \tilde{A}_y \beta  \} \Psi _{i+1,j}^{n}$$
+$$+ \Bigg(-\alpha - i \tilde{A}_y \beta  \Bigg) \Psi _{i+1,j}^{n}$$
  
-$$+ \{-\alpha + i \tilde{A}_y \beta \} \Psi _{i-1,j}^{n}.$$
+$$+ \Bigg(-\alpha + i \tilde{A}_y \beta \Bigg) \Psi _{i-1,j}^{n}.$$
 
 where we have introduced the constants
 
