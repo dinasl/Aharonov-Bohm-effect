@@ -47,7 +47,7 @@ $$
     t_c \equiv \frac{m}{A_cq}l_c, \quad l_c \equiv \frac{\hbar}{A_c q} \quad \text{with} \quad A_c \equiv \mu_0I_0.
 $$
 
-Inserting the terms into $(4)$, dividing by $m/A_c^2q^2$ and setting $\phi = 0$ (this potential term will not be relevant in the following) the *dimensionless minimal coupling rule* now reads
+Inserting the terms into the minimal coupling rule, dividing by $m/A_c^2q^2$ and setting $\phi = 0$ (this potential term will not be relevant in the following) the *dimensionless minimal coupling rule* now reads
 
 $$
     i\frac{d\Psi}{d\tau} = \left[\frac12(-i\tilde{\nabla}-\tilde{\mathbf{A}})^2 + \tilde{V}\right]\Psi \equiv \tilde{H}\Psi,
