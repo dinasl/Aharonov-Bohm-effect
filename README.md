@@ -8,84 +8,75 @@ This is a short summary. The full report can be read [here](AB_report.pdf).
 
 The wavefunction of a non-relativistic quantum system is governed by the Schrödinger equation $(\text{SE})$
 
-\end{align}
+$$
 i \hbar \frac{d}{dt} \Psi = \hat{H}\Psi,
-\tag{SE}
-\end{align}
+$$
 
 where $\hat{H}$ is the Hamiltonian of the system. Consider a particle with charge $q$ moving in an electric field $\mathbf{E}$ and magnetic field $\mathbf{B}$. The fields are given by
 
-\begin{align}
-    \mathbf{E} &= -\nabla \phi - \partial_t\mathbf{A} \quad  \text{and} \tag{1} \\
-    \mathbf{B} &= \nabla \times \mathbf{A},
-\tag{2}
-\end{align}
+$$
+    \mathbf{E} = -\nabla \phi - \partial_t\mathbf{A} \quad  \text{and} \tag{1} \\
+    \mathbf{B} = \nabla \times \mathbf{A},
+$$
 
 where $\phi$ is the electric potenital and $\mathbf{A}$ is the magnetic vector potential. The Hamiltonian is given by
 
-\begin{align}
+$$
     \hat{H} = \frac{1}{2m} (-i \hbar \nabla - q\mathbf{A})^2 + q\phi + V.
-\tag{3}
-\end{align}
+$$
 
 This, combined with $(\text{SE})$ is commonly known as the *minimal coupling rule* $[2]$:
 
-\begin{align}
+$$
     i \hbar \frac{d}{dt} \Psi = \left[\frac{1}{2m} (-i \hbar \nabla - q\mathbf{A})^2 + q\phi + V\right]\Psi.
-\tag{4}
-\end{align}
+$$
 
-As opposed to $\mathbf{E}$ and $\mathbf{B}$, the potetials $\phi$ and $\mathbf{A}$ in electrodynamics are *not* physical fields. However, in quantum mechanics they play a more direct role, as can be seen in $(4)$. A physical consequence ofthis was demonstrated by physicists Yakir Aharonov and David Bohm in 1959 $[5]$, when they showed that the vector potentials can affect the quantum-mechanical behavior of charged particles, even when confined to a region where $\mathbf{E}$ and $\mathbf{B}$ are zero.
+As opposed to $\mathbf{E}$ and $\mathbf{B}$, the potetials $\phi$ and $\mathbf{A}$ in electrodynamics are *not* physical fields. However, in quantum mechanics they play a more direct role, as can be seen in the minimal coupling rule. A physical consequence ofthis was demonstrated by physicists Yakir Aharonov and David Bohm in 1959 $[5]$, when they showed that the vector potentials can affect the quantum-mechanical behavior of charged particles, even when confined to a region where $\mathbf{E}$ and $\mathbf{B}$ are zero.
 
 ### Scaling of the diffierential equation
 
-We can make $(4)$ dimensionless by introducing the following parameters
+We can make the minimal coupling rule dimensionless by introducing the following parameters
 
-\begin{align}
+$$
     \tau \equiv \frac{t}{t_c}, \quad \tilde{x} \equiv \frac{x}{l_c}, \quad  \quad \tilde{y} \equiv \frac{y}{l_c} \quad \text{and} \quad \tilde{\mathbf{A}} \equiv \frac{\mathbf{A}}{A_c},
-\tag{5}
-\end{align}
+$$
 
 where $\tau$ and $x_c$ and $y_c$ are natural length and timescales of the problem, defined by 
 
-\begin{align}
+$$
     t_c \equiv \frac{m}{A_cq}l_c, \quad l_c \equiv \frac{\hbar}{A_c q} \quad \text{with} \quad A_c \equiv \mu_0I_0.
-\tag{6}
-\end{align}
+$$
 
 Inserting the terms into $(4)$, dividing by $m/A_c^2q^2$ and setting $\phi = 0$ (this potential term will not be relevant in the following) the *dimensionless minimal coupling rule* now reads
 
-\begin{align}
+$$
     i\frac{d\Psi}{d\tau} = \left[\frac12(-i\tilde{\nabla}-\tilde{\mathbf{A}})^2 + \tilde{V}\right]\Psi \equiv \tilde{H}\Psi,
-\tag{7}
-\end{align}
+$$
 
 where
 
-\begin{align}
+$$
     \tilde{V} \equiv \frac{V}{V_c}, \quad \text{with} \quad V_c \equiv \hbar/t_c.
-\tag{8}
-\end{align}
+$$
 
 ### Solving the 2D SE with minimal coupling using the CN scheme
 
-The CN method is an implicit, second-order time integration method that uses centered differences. $(7)$ is approximated as
+The CN method is an implicit, second-order time integration method that uses centered differences. The dimensionless minimal coupling rule is approximated as
 
-\begin{align}
+$$
     i\frac{\Psi^{n+1} - \Psi^n}{\Delta \tau} = \frac12 \tilde{H}_{disc} (\Psi^{n+1} + \Psi^n),
-\tag{8}
-\end{align}
+$$
 
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
-\begin{align}
+$$
     \left(I + \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^{n+1} &= \left(I - \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^n, \notag \\
     A\Psi^{n+1} &= M\Psi^n.
-\tag{9}
-\end{align}
+$$
 
-Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system in $(9)$ becomes
+Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
+$$
 \begin{align}
 &\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1} \notag \\
 + &\left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
@@ -97,20 +88,19 @@ Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$)
 + \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n} \notag \\
 + &\left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
 + \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n},
-\tag{10}
 \end{align}
+$$
 
 where we have introduced the constants
 
-\begin{align}
+$$
     \alpha \equiv \frac{\Delta \tau}{4(\Delta l)^2} \quad \text{and} \quad
     \beta \equiv \frac{\Delta\tau}{8\Delta l}.
-\tag{11}
-\end{align}
+$$
 
 For simplicity, we have assumed that $\Delta x = \Delta y \equiv \Delta l$. 
 
-It's worth noting that because the CN scheme is numerically implicit, it is computationally expensive. However, when taking a look at $(10)$, $\tilde{H}_{disc}$ takes a block-tri-diagonal form. One can therefore take great advantage of the use of sparse matrix storage formats, such as the \textit{compressed sparse column} (CSC) format, which used in the code implementation.
+It's worth noting that because the CN scheme is numerically implicit, it is computationally expensive. However, when taking a look at the matrix system $\tilde{H}_{disc}$ takes a block-tri-diagonal form. One can therefore take great advantage of the use of sparse matrix storage formats, such as the \textit{compressed sparse column} (CSC) format, which used in the code implementation.
 
 ### Results
 
@@ -118,7 +108,7 @@ It's worth noting that because the CN scheme is numerically implicit, it is comp
 
 <img src="animations/double_slit(4).gif" width="600">
 
-*Two-dimensional probability density $|\Psi|^2$ of single electron in double-slit diffraction. The blue line indicates the "screen" at $\tilde{x} = 6.0$ where the diffraction pattern is measured.*
+*Two-dimensional probability density* $|\Psi|^2$ *of single electron in double-slit diffraction. The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured.*
 
 **Two electrons - The Aharonov-Bohm effect**
 
@@ -126,13 +116,13 @@ $\mathbf{A} = 0$
 
 <img src="animations/double_slit_AB_noA(4).gif" width="600">
 
-*Two-dimensional probability density $|\Psi|^2$ of two electrons in the double-slit experiment (with $\mathbf{A} = 0$). The blue line indicates the "screen" at $\tilde{x} = 6.0$ where the diffraction pattern is measured.*
+*Two-dimensional probability density* $|\Psi|^2$ *of two electrons in the double-slit experiment (with* $\mathbf{A} = 0$*). The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured.*
 
 $\mathbf{A} \neq 0$
 
 <img src="animations/double_slit_AB(4).gif" width="600">
 
-**Aharonov-Bohm experiment**: *Two-dimensional probability density $|\Psi|^2$ of two electrons in double-slit diffraction with $\mathbf{A} \neq 0$. The blue line indicates the "screen" at $\tilde{x} = 6.0$ where the diffraction pattern is measured. The solenoid is indicated by a white dot.*
+**Aharonov-Bohm experiment**: *Two-dimensional probability density* $|\Psi|^2$ *of two electrons in double-slit diffraction with* $\mathbf{A} \neq 0$. *The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured. The solenoid is indicated by a white dot.*
 
 <img src="graphics/vector_potential.jpg" width="300">
 
