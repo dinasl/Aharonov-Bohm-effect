@@ -79,19 +79,15 @@ Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$)
 
 $$ \Bigg( i - 4\alpha - \Delta\tau \Bigg[\frac{1}{2} (\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V} \Bigg] \Bigg) \Psi _{i,j}^{n+1}$$
  
-$$+  \Bigg( \alpha + i \tilde{A}_x\beta \Bigg) \Psi _{i,j+1}^{n+1}
-+ \Bigg( \alpha - i \tilde{A}_x\beta \Bigg) \Psi _{i,j-1}^{n+1}$$
+$$+  \Bigg( \alpha + i \tilde{A}_x\beta \Bigg) \Psi _{i,j+1}^{n+1} + \Bigg( \alpha - i \tilde{A}_x\beta \Bigg) \Psi _{i,j-1}^{n+1}$$
 
-$$+ \Bigg( \alpha + i \tilde{A}_y\beta \Bigg) \Psi _{i+1,j}^{n+1}
-+ \Bigg( \alpha - i \tilde{A}_y\beta \Bigg) \Psi _{i-1,j}^{n+1}$$
+$$+ \Bigg( \alpha + i \tilde{A}_y\beta \Bigg) \Psi _{i+1,j}^{n+1} + \Bigg( \alpha - i \tilde{A}_y\beta \Bigg) \Psi _{i-1,j}^{n+1}$$
 
 $$= \Bigg( i - 4\alpha - \Delta\tau \Bigg[\frac{1}{2}(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\Bigg] \Bigg) \Psi _{i,j}^{n}$$
 
-$$+ \Bigg( -\alpha - i \tilde{A}_x \beta  \Bigg) \Psi _{i,j+1}^{n}
-+ \Bigg( -\alpha + i \tilde{A}_x \beta \Bigg) \Psi _{i,j-1}^{n}$$
+$$+ \Bigg( -\alpha - i \tilde{A}_x \beta  \Bigg) \Psi _{i,j+1}^{n} + \Bigg( -\alpha + i \tilde{A}_x \beta \Bigg) \Psi _{i,j-1}^{n}$$
 
-$$+ \Bigg(-\alpha - i \tilde{A}_y \beta  \Bigg) \Psi _{i+1,j}^{n}
- + \Bigg(-\alpha + i \tilde{A}_y \beta \Bigg) \Psi _{i-1,j}^{n}.$$
+$$+ \Bigg(-\alpha - i \tilde{A}_y \beta  \Bigg) \Psi _{i+1,j}^{n} + \Bigg(-\alpha + i \tilde{A}_y \beta \Bigg) \Psi _{i-1,j}^{n}.$$
 
 where we have introduced the constants
 
