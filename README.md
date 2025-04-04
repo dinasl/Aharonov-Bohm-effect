@@ -70,21 +70,21 @@ $$
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
 $$
-    \left(I + \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^{n+1} &= \left(I - \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^n, \notag \\
+    \left(I + \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^{n+1} &= \left(I - \frac{i\Delta t}{2}\tilde{H}_{disc}\right)\Psi^n, \\
     A\Psi^{n+1} &= M\Psi^n.
 $$
 
 Expanding $\tilde{H}$, using the *Coulomb gauge* ($\nabla \cdot \mathbf{A} = 0$) and discretizing the laplacian and momentum coupling term using a five-point stencil, the matrix system is given by
 
 $$
-\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1} \notag \\
+\left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n+1} \\
 + \left\{\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n+1}
-+ \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1} \notag \\
++ \left\{\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n+1} \\
 + \left\{\alpha + i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n+1}
-+ \left\{\alpha - i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n+1} \notag \\
-= \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n} \notag \\
++ \left\{\alpha - i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n+1} \\
+= \left\{i - 4\alpha - \Delta\tau\left[\frac12(\tilde{A}_x^2 + \tilde{A}_y^2) - \tilde{V}\right]\right\}\Psi_{i,j}^{n} \\
 + \left\{-\alpha - i\tilde{A}_x\beta\right\}\Psi_{i,j+1}^{n}
-+ \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n} \notag \\
++ \left\{-\alpha + i\tilde{A}_x\beta\right\}\Psi_{i,j-1}^{n} \\
 + \left\{-\alpha - i\tilde{A}_y\beta\right\}\Psi_{i+1,j}^{n}
 + \left\{-\alpha + i\tilde{A}_y\beta\right\}\Psi_{i-1,j}^{n},
 $$
