@@ -71,7 +71,7 @@ $$
 
 where $\tilde{H}_{disc}$ is the discretized dimensionless hamiltonian. We see that the right-hand-side is an average between the backward and forward Euler methods. Collecting like terms, we obtain the CN matrix system
 
-$$ \Bigg( I + \frac{i \Delta t}{2} \tilde{H}_{disc} \Bigg) \Psi ^{n+1} =  \Bigg( I - \frac{i\Delta t}{2} \tilde{H}_{disc} \Bigg) \Psi ^n,$$
+$$ ( I + \frac{i \Delta t}{2} \tilde{H} _{disc} ) \Psi ^{n+1} =  ( I - \frac{i\Delta t}{2} \tilde{H} _{disc} ) \Psi ^n ,$$
 
 $$A\Psi^{n+1} = M\Psi^n.$$
 
@@ -104,7 +104,7 @@ It's worth noting that because the CN scheme is numerically implicit, it is comp
 
 **Single electron**
 
-<img src="animations/double_slit(4).gif" width="600">
+<img src="animations/double_slit(4).gif" width="800">
 
 *Two-dimensional probability density* $|\Psi|^2$ *of single electron in double-slit diffraction. The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured.*
 
@@ -112,17 +112,17 @@ It's worth noting that because the CN scheme is numerically implicit, it is comp
 
 $\mathbf{A} = 0$
 
-<img src="animations/double_slit_AB_noA(4).gif" width="600">
+<img src="animations/double_slit_AB_noA(4).gif" width="800">
 
 *Two-dimensional probability density* $|\Psi|^2$ *of two electrons in the double-slit experiment (with* $\mathbf{A} = 0$*). The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured.*
 
 $\mathbf{A} \neq 0$
 
-<img src="animations/double_slit_AB(4).gif" width="600">
+<img src="animations/double_slit_AB(4).gif" width="800">
 
 **Aharonov-Bohm experiment**: *Two-dimensional probability density* $|\Psi|^2$ *of two electrons in double-slit diffraction with* $\mathbf{A} \neq 0$. *The blue line indicates the "screen" at* $\tilde{x} = 6.0$ *where the diffraction pattern is measured. The solenoid is indicated by a white dot.*
 
-<img src="graphics/vector_potential.jpg" width="300">
+<img src="graphics/vector_potential.jpg" width="400">
 
 *Solenoid vector potential.*
 
