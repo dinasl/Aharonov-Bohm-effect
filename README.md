@@ -43,7 +43,7 @@ $$
     \tau \equiv \frac{t}{t_c}, \quad \tilde{x} \equiv \frac{x}{l_c}, \quad  \quad \tilde{y} \equiv \frac{y}{l_c} \quad \text{and} \quad \tilde{\mathbf{A}} \equiv \frac{\mathbf{A}}{A_c},
 $$
 
-where $\tau$ and $x_c$ and $y_c$ are natural length and timescales of the problem, defined by 
+where $\tau$ and $x_c = y_c = l_c$ are natural time- and lengthscales of the problem, respectively, defined by 
 
 $$
     t_c \equiv \frac{m}{A_cq}l_c, \quad l_c \equiv \frac{\hbar}{A_c q} \quad \text{with} \quad A_c \equiv \mu_0I_0.
